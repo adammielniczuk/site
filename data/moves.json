@@ -1,0 +1,132 @@
+[
+    {
+        "elo": "800",
+        "user_guess": "computer",
+        "correct_answer": "computer"
+    },
+    {
+        "elo": "800",
+        "user_guess": "human",
+        "correct_answer": "human"
+    },
+    {
+        "elo": "800",
+        "user_guess": "human",
+        "correct_answer": "computer"
+    },
+    {
+        "elo": "800",
+        "user_guess": "computer",
+        "correct_answer": "human"
+    },
+    {
+        "elo": "800",
+        "user_guess": "human",
+        "correct_answer": "computer"
+    },
+    {
+        "elo": "1400-1600",
+        "user_guess": "computer",
+        "correct_answer": "computer"
+    },
+    {
+        "elo": "1400-1600",
+        "user_guess": "human",
+        "correct_answer": "computer"
+    },
+    {
+        "elo": "1400-1600",
+        "user_guess": "computer",
+        "correct_answer": "human"
+    },
+    {
+        "elo": "1400-1600",
+        "user_guess": "human",
+        "correct_answer": "human"
+    },
+    {
+        "elo": "1400-1600",
+        "user_guess": "human",
+        "correct_answer": "human"
+    },
+    {
+        "elo": "1400-1600",
+        "user_guess": "human",
+        "correct_answer": "computer"
+    },
+    {
+        "elo": "1400-1600",
+        "user_guess": "computer",
+        "correct_answer": "computer"
+    },
+    {
+        "elo": "1400-1600",
+        "user_guess": "human",
+        "correct_answer": "computer"
+    },
+    {
+        "elo": "1400-1600",
+        "user_guess": "computer",
+        "correct_answer": "computer"
+    },
+    {
+        "elo": "1400-1600",
+        "user_guess": "human",
+        "correct_answer": "human"
+    },
+    {
+        "elo": "1400-1600",
+        "user_guess": "human",
+        "correct_answer": "computer"
+    },
+    {
+        "elo": "1400-1600",
+        "user_guess": "computer",
+        "correct_answer": "computer"
+    },
+    {
+        "elo": "1400-1600",
+        "user_guess": "human",
+        "correct_answer": "computer"
+    },
+    {
+        "elo": "1400-1600",
+        "user_guess": "computer",
+        "correct_answer": "human"
+    },
+    {
+        "elo": "1400-1600",
+        "user_guess": "human",
+        "correct_answer": "computer"
+    },
+    {
+        "elo": "800",
+        "user_guess": "computer",
+        "correct_answer": "computer"
+    },
+    {
+        "elo": "800",
+        "user_guess": "human",
+        "correct_answer": "computer"
+    },
+    {
+        "elo": "800",
+        "user_guess": "computer",
+        "correct_answer": "computer"
+    },
+    {
+        "elo": "800",
+        "user_guess": "human",
+        "correct_answer": "human"
+    },
+    {
+        "elo": "800",
+        "user_guess": "human",
+        "correct_answer": "computer"
+    },
+    {
+        "elo": "800",
+        "user_guess": "computer",
+        "correct_answer": "computer"
+    }
+]

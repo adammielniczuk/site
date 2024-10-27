@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chess Move Challenge</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="text-center">
+            <h2 class="mb-4">Chess Move Challenge</h2>
+            
+            
+            <div class="row mb-4">
+                <div class="col">
+                    <img id="before_img" src="{{ url_for('static', filename=before_img) }}" class="img-fluid" alt="Before Move">
+                </div>
+                <div class="col">
+                    <img id="after_img" src="{{ url_for('static', filename=after_img) }}" class="img-fluid" alt="After Move">
+                </div>
+            </div>
+            <h3 class="mb-1">Did a human make this move?</h3>
+            <div>
+                <button onclick="submitAnswer('human')" class="btn btn-success btn-lg ml-2">Yes</button>
+                <button onclick="submitAnswer('computer')" class="btn btn-danger btn-lg mr-2">No</button>
+                
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function submitAnswer(userGuess) {
+
+            const beforeImgSrc = document.getElementById("before_img").src;
+        
+       
+            const correct = beforeImgSrc.includes("computer") ? "computer" : "human";
+
+      
+            const data = {
+            elo: "{{ elo }}",
+            user_guess: userGuess,
+            correct: correct
+            };
+
+
+            fetch("{{ url_for('submit') }}", {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Update images
+                document.getElementById("before_img").src = "/static/" + data.before_img;
+                document.getElementById("after_img").src = "/static/" + data.after_img;
+            });
+        }
+    </script>
+</body>
+</html>
