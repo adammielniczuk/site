@@ -1,17 +1,43 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chess Move Challenge</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-</head>
-<body>
+{% extends "base.html" %}
+
+{% block content %}
+    <style>
+        .feedback {
+            display: flex; /* Enable Flexbox */
+            justify-content: center; /* Center horizontally */
+            align-items: center; /* Center vertically */
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-weight: bold;
+            max-width: 40%;
+        }
+        .feedback.correct {
+            background-color: #d4edda; /* Light green */
+            color: #155724; /* Dark green text */
+        }
+        .feedback.incorrect {
+            background-color: #f8d7da; /* Light red */
+            color: #721c24; /* Dark red text */
+        }
+    </style>
+
     <div class="container mt-5">
-        <div class="text-center">
-            <h2 class="mb-4">Chess Move Challenge</h2>
+        <div class="container text-center">
+        
+            
+            <!-- Score Display -->
+            <div class="mb-3">
+                <h4>Your Score</h4>
+                <p>Correct: <span id="correct-count">0</span> / <span id="total-count">0</span></p>
+                <p>Accuracy: <span id="accuracy">0</span>%</p>
+            </div>
+
             
             
+
+
+                    
             <div class="row mb-4">
                 <div class="col">
                     <img id="before_img" src="{{ url_for('static', filename=before_img) }}" class="img-fluid" alt="Before Move">
@@ -20,30 +46,61 @@
                     <img id="after_img" src="{{ url_for('static', filename=after_img) }}" class="img-fluid" alt="After Move">
                 </div>
             </div>
-            <h3 class="mb-1">Did a human make this move?</h3>
-            <div>
+            <h3 class="mb-3">Did a human make this move?</h3>
+            <div class="mb-3">
                 <button onclick="submitAnswer('human')" class="btn btn-success btn-lg ml-2">Yes</button>
                 <button onclick="submitAnswer('computer')" class="btn btn-danger btn-lg mr-2">No</button>
-                
             </div>
+            <div class="mx-auto d-flex justify-content-center align-items-center ">
+                <div id="feedback" class="feedback mx-auto d-flex justify-content-center align-items-center text-center rounded" style="display: none;">
+                    <span id="feedback-message"></span> <!-- Empty at the start -->
+                </div></div>
         </div>
     </div>
 
     <script>
+        // Initialize scoring variables
+        let correctCount = 0;
+        let totalCount = 0;
+
+        function updateScore(isCorrect) {
+            if (isCorrect) correctCount++;
+            totalCount++;
+            
+            const accuracy = ((correctCount / totalCount) * 100).toFixed(0);
+            
+            document.getElementById('correct-count').textContent = correctCount;
+            document.getElementById('total-count').textContent = totalCount;
+            document.getElementById('accuracy').textContent = accuracy;
+        }
+
+        function showFeedback(isCorrect, actualType) {
+            const feedback = document.getElementById('feedback');
+            const message = document.getElementById('feedback-message');
+            
+
+            feedback.className = 'feedback ' + (isCorrect ? 'correct' : 'incorrect');
+
+            message.textContent = isCorrect ? 
+                'Correct! This was indeed a ' + actualType + ' move!' :
+                'Incorrect! This was actually a ' + actualType + ' move.';
+            
+            feedback.style.display = 'flex';
+        }
         function submitAnswer(userGuess) {
-
             const beforeImgSrc = document.getElementById("before_img").src;
-        
-       
-            const correct = beforeImgSrc.includes("computer") ? "computer" : "human";
+            const imageFilename = beforeImgSrc.split('/').pop();
+            const imageType = imageFilename.includes("computer") ? "computer" : "human";
 
-      
             const data = {
-            elo: "{{ elo }}",
-            user_guess: userGuess,
-            correct: correct
+                elo: {{ elo|tojson|safe }},
+                user_guess: userGuess,
+                image_type: imageType
             };
 
+            // Disable buttons while processing
+            const buttons = document.querySelectorAll('button');
+            buttons.forEach(btn => btn.disabled = true);
 
             fetch("{{ url_for('submit') }}", {
                 method: 'POST',
@@ -52,11 +109,33 @@
             })
             .then(response => response.json())
             .then(data => {
-                // Update images
-                document.getElementById("before_img").src = "/static/" + data.before_img;
-                document.getElementById("after_img").src = "/static/" + data.after_img;
+                if (data.status === "success") {
+                    // Show feedback
+                    const isCorrect = userGuess === imageType;
+                    showFeedback(isCorrect, imageType);
+                    updateScore(isCorrect);
+
+                    // Wait 1.5 seconds before showing next images
+                    setTimeout(() => {
+                        // Update images
+                        document.getElementById("before_img").src = "/static/" + data.before_img;
+                        document.getElementById("after_img").src = "/static/" + data.after_img;
+                        
+                        // Hide feedback
+                        document.getElementById('feedback').style.display = 'none';
+                        
+                        // Re-enable buttons
+                        buttons.forEach(btn => btn.disabled = false);
+                    }, 1000);
+                } else {
+                    console.error("Error:", data.message);
+                    buttons.forEach(btn => btn.disabled = false);
+                }
+            })
+            .catch(error => {
+                console.error("Error submitting answer:", error);
+                buttons.forEach(btn => btn.disabled = false);
             });
         }
     </script>
-</body>
-</html>
+{% endblock %}

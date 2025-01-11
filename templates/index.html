@@ -1,35 +1,34 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chess Move Challenge</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-</head>
-<body>
+{% extends "base.html" %}
 
+{% block content %}
     <div class="container mt-5">
         <div class="text-center">
-        <h1 class="mb-4">Chess Move Challenge</h1>
-        <p>Can you tell if the chess move was made by a human or a computer?</p>
-        
-        <form action="{{ url_for('game') }}" method="post" class="mt-4">
-            <div class="form-group">
-            <label for="elo">Select your Chess ELO:</label>
-            <select id="elo" name="elo" class="form-control w-25 mx-auto" required>
-                <option value="800"><800</option>
-                <option value="800-1000">800-1000</option>
-                <option value="1000-1200">1000-1200</option>
-                <option value="1200-1400">1200-1400</option>
-                <option value="1400-1600">1400-1600</option>
-                <option value="1600-1800">1600-1800</option>
-                <option value="1800-2000">1800-2000</option>
-                <option value="2000+">2000+</option>
-            </select>
-            </div>
-            <button type="submit" class="btn btn-primary btn-lg mt-3">Start</button>
-        </form>
+            <h1 class="mb-2">Chess Move Challenge</h1>
+            <p class="mb-5">Can you tell if the chess move was made by a human or a computer?</p>
+            
+            <h3 class="mb-2">What is this about?</h3>
+            <p class="w-50 mx-auto mb-3">We are a team of students from Poznań University of Technology working on our engineering thesis. Our goal is to create a chessbot which plays like a human. This test was built to check whether chess players can recognize if a move is made by a human player or our bot, which we named PikeBot. If you wish to learn more feel free to visit the about section or our Github page. </p>
+            <h3 class="mb-2">How does it work?</h3>
+            <p class="w-50 mx-auto mb-3">PikeBot has analyzed over half a million of human chess games to learn and understand which moves are played by humans and which ones are not. We use the information it gives us and an evaluation of that postion made by Stockfish to choose what move is most probable.</p>
+            <h3 class="mb-2">How to fill the test?</h3>
+            <p class="w-50 mx-auto mb-3">Just choose your chess ELO and press start. You will see two images of a board - one before and one after the move. You need to anwser whether the move was made by a humapn player or not. You don't need to send anything - your anwsers will be automatically submitted. Thank you for your help!</p>
+            <div class="mb-3"> </div>
+            <form action="{{ url_for('game') }}" method="post" class="mt-4">
+                <div class="form-group">
+                <label for="elo">Select your Chess ELO:</label>
+                <select id="elo" name="elo" class="form-control w-25 mx-auto" required>
+                    <option value="800"><800</option>
+                    <option value="800-1000">800-1000</option>
+                    <option value="1000-1200">1000-1200</option>
+                    <option value="1200-1400">1200-1400</option>
+                    <option value="1400-1600">1400-1600</option>
+                    <option value="1600-1800">1600-1800</option>
+                    <option value="1800-2000">1800-2000</option>
+                    <option value="2000+">2000+</option>
+                </select>
+                </div>
+                <button type="submit" class="btn btn-primary btn-lg mt-3">Start</button>
+            </form>
+        </div>
     </div>
-    </div>
-</body>
-</html>
+{% endblock %}
