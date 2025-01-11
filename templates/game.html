@@ -2,66 +2,173 @@
 
 {% block content %}
     <style>
+        .game-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
+            padding: 2rem;
+            margin: 1rem auto;
+            max-width: 1600px;
+        }
+
+        .score-card {
+            background: #1a1a2e;
+            color: white;
+            padding: 1rem;
+            border-radius: 15px;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            max-width: 726px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .score-title {
+            color: #64b5f6;
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .score-stats {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #64b5f6;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .board-container {
+            background: rgba(26, 26, 46, 0.05);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .board-images {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .board-image {
+            max-width: 350px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .question {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-bottom: 1rem;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .btn-answer {
+            padding: 0.6rem 2rem;
+            font-size: 1rem;
+            font-weight: 500;
+            border-radius: 10px;
+            transition: transform 0.2s;
+        }
+
+        .btn-answer:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-yes {
+            background-color: #2ecc71;
+            border: none;
+        }
+
+        .btn-no {
+            background-color: #e74c3c;
+            border: none;
+        }
+
         .feedback {
-            display: flex; /* Enable Flexbox */
-            justify-content: center; /* Center horizontally */
-            align-items: center; /* Center vertically */
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 5px;
-            font-weight: bold;
-            max-width: 40%;
+            margin: 1rem auto;
+            padding: 0.75rem 1.5rem;
+            border-radius: 10px;
+            font-weight: 500;
+            max-width: 400px;
+            text-align: center;
         }
+
         .feedback.correct {
-            background-color: #d4edda; /* Light green */
-            color: #155724; /* Dark green text */
+            background-color: rgba(46, 204, 113, 0.15);
+            color: #27ae60;
+            border: 1px solid rgba(46, 204, 113, 0.3);
         }
+
         .feedback.incorrect {
-            background-color: #f8d7da; /* Light red */
-            color: #721c24; /* Dark red text */
+            background-color: rgba(231, 76, 60, 0.15);
+            color: #c0392b;
+            border: 1px solid rgba(231, 76, 60, 0.3);
         }
     </style>
 
-    <div class="container mt-5">
-        <div class="container text-center">
-        
-            
-            <!-- Score Display -->
-            <div class="mb-3">
-                <h4>Your Score</h4>
-                <p>Correct: <span id="correct-count">0</span> / <span id="total-count">0</span></p>
-                <p>Accuracy: <span id="accuracy">0</span>%</p>
-            </div>
-
-            
-            
-
-
-                    
-            <div class="row mb-4">
-                <div class="col">
-                    <img id="before_img" src="{{ url_for('static', filename=before_img) }}" class="img-fluid" alt="Before Move">
+    <div class="game-container">
+        <!-- Score Display -->
+        <div class="score-card">
+            <div class="score-title text-center">Your Performance</div>
+            <div class="score-stats">
+                <div class="stat-item">
+                    <div class="stat-value"><span id="correct-count">0</span>/<span id="total-count">0</span></div>
+                    <div class="stat-label">Correct Answers</div>
                 </div>
-                <div class="col">
-                    <img id="after_img" src="{{ url_for('static', filename=after_img) }}" class="img-fluid" alt="After Move">
+                <div class="stat-item">
+                    <div class="stat-value"><span id="accuracy">0</span>%</div>
+                    <div class="stat-label">Accuracy</div>
                 </div>
             </div>
-            <h3 class="mb-3">Did a human make this move?</h3>
-            <div class="mb-3">
-                <button onclick="submitAnswer('human')" class="btn btn-success btn-lg ml-2">Yes</button>
-                <button onclick="submitAnswer('computer')" class="btn btn-danger btn-lg mr-2">No</button>
+        </div>
+
+        <!-- Game Board -->
+        <div class="board-container">
+            <div class="board-images">
+                <img id="before_img" src="{{ url_for('static', filename=before_img) }}" class="board-image" alt="Before Move">
+                <img id="after_img" src="{{ url_for('static', filename=after_img) }}" class="board-image" alt="After Move">
             </div>
-            <div class="mx-auto d-flex justify-content-center align-items-center ">
-                <div id="feedback" class="feedback mx-auto d-flex justify-content-center align-items-center text-center rounded" style="display: none;">
-                    <span id="feedback-message"></span> <!-- Empty at the start -->
-                </div></div>
+            
+            <div class="text-center">
+                <h3 class="question">Did a human make this move?</h3>
+                <div class="action-buttons">
+                    <button onclick="submitAnswer('human')" class="btn btn-answer btn-yes">Yes</button>
+                    <button onclick="submitAnswer('computer')" class="btn btn-answer btn-no">No</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="feedback" class="feedback" style="display: none;">
+            <span id="feedback-message"></span>
         </div>
     </div>
 
     <script>
-        // Initialize scoring variables
         let correctCount = 0;
         let totalCount = 0;
+        let feedbackTimeout;
 
         function updateScore(isCorrect) {
             if (isCorrect) correctCount++;
@@ -78,16 +185,20 @@
             const feedback = document.getElementById('feedback');
             const message = document.getElementById('feedback-message');
             
-
             feedback.className = 'feedback ' + (isCorrect ? 'correct' : 'incorrect');
-
             message.textContent = isCorrect ? 
                 'Correct! This was indeed a ' + actualType + ' move!' :
                 'Incorrect! This was actually a ' + actualType + ' move.';
             
-            feedback.style.display = 'flex';
+            feedback.style.display = 'block';
         }
+
         function submitAnswer(userGuess) {
+            // Clear any existing timeout
+            if (feedbackTimeout) {
+                clearTimeout(feedbackTimeout);
+            }
+
             const beforeImgSrc = document.getElementById("before_img").src;
             const imageFilename = beforeImgSrc.split('/').pop();
             const imageType = imageFilename.includes("computer") ? "computer" : "human";
@@ -98,8 +209,7 @@
                 image_type: imageType
             };
 
-            // Disable buttons while processing
-            const buttons = document.querySelectorAll('button');
+            const buttons = document.querySelectorAll('.btn-answer');
             buttons.forEach(btn => btn.disabled = true);
 
             fetch("{{ url_for('submit') }}", {
@@ -110,23 +220,21 @@
             .then(response => response.json())
             .then(data => {
                 if (data.status === "success") {
-                    // Show feedback
                     const isCorrect = userGuess === imageType;
                     showFeedback(isCorrect, imageType);
                     updateScore(isCorrect);
 
-                    // Wait 1.5 seconds before showing next images
+                    // Show next images after 800ms
                     setTimeout(() => {
-                        // Update images
                         document.getElementById("before_img").src = "/static/" + data.before_img;
                         document.getElementById("after_img").src = "/static/" + data.after_img;
-                        
-                        // Hide feedback
-                        document.getElementById('feedback').style.display = 'none';
-                        
-                        // Re-enable buttons
                         buttons.forEach(btn => btn.disabled = false);
-                    }, 1000);
+                    }, 500);
+
+                    // Hide feedback after 2 seconds
+                    feedbackTimeout = setTimeout(() => {
+                        document.getElementById('feedback').style.display = 'none';
+                    }, 1500);
                 } else {
                     console.error("Error:", data.message);
                     buttons.forEach(btn => btn.disabled = false);

@@ -1,5 +1,47 @@
 {% extends "base.html" %}
 
 {% block content %}
-<p>hello world</p>
+<div class="container py-5">
+    <div class="text-center">
+        <h1 class="display-4 fw-bold mb-4" style="color: #1a1a2e;">About PikeBot</h1>
+    </div>
+
+    <div class="row justify-content-center">
+        <!-- Card 1: Playing Chess Like a Human -->
+        <div class="col-md-8 mb-4">
+            <div class="card shadow-sm p-4 h-100" style="background: rgba(255, 255, 255, 0.9); border-radius: 15px;">
+                <h3 class="h4 fw-bold mb-3" style="color: #2c3e50;">Playing Chess Like a Human</h3>
+                <p class="mb-0">Most chess engines are designed to play perfect moves. We took a different path: creating an AI that understands how humans think about chess.</p>
+            </div>
+        </div>
+
+        <!-- Card 2: The Challenge -->
+        <div class="col-md-8 mb-4">
+            <div class="card shadow-sm p-4 h-100" style="background: rgba(255, 255, 255, 0.9); border-radius: 15px;">
+                <h3 class="h4 fw-bold mb-3" style="color: #2c3e50;">The Challenge</h3>
+                <p class="mb-0">Chess engines like Stockfish are very good at winning, but they often play in ways that feel strange to human players. They make moves that, while mathematically optimal, don't reflect how people naturally approach the game. We wanted to bridge this gap by creating an engine that could do moves that look human while maintaining strong play.</p>
+            </div>
+        </div>
+
+        <!-- Card 3: Our Solution -->
+        <div class="col-md-8 mb-4">
+            <div class="card shadow-sm p-4 h-100" style="background: rgba(255, 255, 255, 0.9); border-radius: 15px;">
+                <h3 class="h4 fw-bold mb-3" style="color: #2c3e50;">Our Solution</h3>
+                <p class="mb-0">We developed an architecture inspired by ResNet-like models for our binary move classification task. The network is composed of convolutional and dense layers. The board representation of the bitboards is passed to the convolutional part of the network, which is composed of two ResNet-like blocks. A single block is composed of a series of convolutional operations and additions. First, the input is passed to a convolutional layer with a 3x3 kernel size. The number of output channels is determined by a variable that specifies how many more output channels there should be compared to the input channels. In this case, the multiple was 2, meaning that for a history of size 1 (in total bitboard shape of 152 by 8x8), the number of output channels would reach 304.</p>
+                <p>The output from the first convolutional layer is passed to the second convolutional layer with the same number of output channels. The result of the first and second convolution operations is then added and passed to the third convolutional operation. In the end, the operation’s output is then added to the first and second layer’s results and put through the last convolutional layer with the number of output channels being the same as the original number of channels in the input. In the end, the output is added with the input to the block, and max pooling is applied.</p>
+                <p>The use of skip-connections in these blocks should allow for correct gradient backpropagation, enabling stable training. Furthermore, the use of max pooling should allow the model to focus on key points and positions of interest as determined by the positions with the highest values. Two such blocks are used before the data is put into the dense layers. The metadata representing the player’s ELO, color, Stockfish centipawn position evaluation, Stockfish centipawn move evaluation, bullet, rapid, classic, blitz, and rated features are passed to a dense layer with 512 units. Then the output of the convolutional blocks that were fed the bitboard representations is concatenated with the output of the dense layer analyzing the metadata information.</p>
+                <p>The concatenated information is then passed to two dense layers with sizes 1024 and 64 units, respectively. Lastly, the output is passed to the output layer with a single neuron, which shows the probability of the move being performed by a human. The architecture utilizes ReLU activation to allow for fast training. However, the output layer uses Sigmoid activation since the probability should be mapped to values between 0 and 1, with 1 showing certainty that this is a human move and 0 representing a move from the random distribution.</p>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-8 mb-4">
+                <div class="card shadow-sm p-4 h-100 text-center" style="background: rgba(255, 255, 255, 0.9); border-radius: 15px;">
+                    <h3 class="h4 fw-bold mb-3" style="color: #2c3e50;">Model Visualization</h3>
+                    <img src="{{ url_for('static', filename='model.png') }}" alt="Model visualization" class="img-fluid" style="border-radius: 15px;">
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
 {% endblock %}

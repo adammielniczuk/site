@@ -1,23 +1,50 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <div class="container mt-5">
-        <div class="text-center">
-            <h1 class="mb-2">Chess Move Challenge</h1>
-            <p class="mb-5">Can you tell if the chess move was made by a human or a computer?</p>
-            
-            <h3 class="mb-2">What is this about?</h3>
-            <p class="w-50 mx-auto mb-3">We are a team of students from Poznań University of Technology working on our engineering thesis. Our goal is to create a chessbot which plays like a human. This test was built to check whether chess players can recognize if a move is made by a human player or our bot, which we named PikeBot. If you wish to learn more feel free to visit the about section or our Github page. </p>
-            <h3 class="mb-2">How does it work?</h3>
-            <p class="w-50 mx-auto mb-3">PikeBot has analyzed over half a million of human chess games to learn and understand which moves are played by humans and which ones are not. We use the information it gives us and an evaluation of that postion made by Stockfish to choose what move is most probable.</p>
-            <h3 class="mb-2">How to fill the test?</h3>
-            <p class="w-50 mx-auto mb-3">Just choose your chess ELO and press start. You will see two images of a board - one before and one after the move. You need to anwser whether the move was made by a humapn player or not. You don't need to send anything - your anwsers will be automatically submitted. Thank you for your help!</p>
-            <div class="mb-3"> </div>
-            <form action="{{ url_for('game') }}" method="post" class="mt-4">
-                <div class="form-group">
-                <label for="elo">Select your Chess ELO:</label>
-                <select id="elo" name="elo" class="form-control w-25 mx-auto" required>
-                    <option value="800"><800</option>
+<div class="container py-5">
+    <div class="text-center">
+        <h1 class="display-4 fw-bold mb-4" style="color: #1a1a2e;">Chess Move Challenge</h1>
+        <p class="lead mb-5" style="color: #4a4a4a;">Can you tell if the chess move was made by a human or a computer?</p>
+        
+        <div class="row justify-content-center mb-5">
+            <div class="col-md-4 mb-4 mb-md-0">
+                <div class="card shadow-sm p-4 h-100" style="background: rgba(255, 255, 255, 0.9); border-radius: 15px;">
+                    <h3 class="h4 fw-bold mb-3" style="color: #2c3e50;">What is this about?</h3>
+                    <p class="mb-0">We are a group of students from Poznań University of Technology,
+                         currently working on our engineering thesis.
+                        Our goal is to create a chessbot which plays like a human.
+                        This test is part of our project, where we explore whether players can identify if a move is made by a human player or by PikeBot, our custom-built AI bot.
+                        To learn more, check out our About section or visit our GitHub page.</p>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-4 mb-md-0">
+                <div class="card shadow-sm p-4 h-100" style="background: rgba(255, 255, 255, 0.9); border-radius: 15px;">
+                    <h3 class="h4 fw-bold mb-3" style="color: #2c3e50;">How does it work?</h3>
+                    <p class="mb-0">PikeBot has analyzed over half a million of human chess games to 
+                        identify patterns and determine which moves are typically human-made and which are not.
+                         We use the information it gives us and an evaluation of that position
+                          made by Stockfish to choose what move is most probable.</p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card shadow-sm p-4 h-100" style="background: rgba(255, 255, 255, 0.9); border-radius: 15px;">
+                    <h3 class="h4 fw-bold mb-3" style="color: #2c3e50;">How to fill the test?</h3>
+                    <p class="mb-0">Simply select your chess ELO and click start. 
+                        You'll be shown two images of a chessboard — one before the move and one after.
+                         Your task is to decide whether the move was made by a human. 
+                         There's no need to submit anything; your answers will be automatically saved.
+                            Thank you for your help!</p>
+                </div>
+            </div>
+        </div>
+
+        <form action="{{ url_for('game') }}" method="post" class="mt-4">
+            <div class="form-group mb-4">
+                <label for="elo" class="form-label fw-bold mb-2">Select your Chess ELO:</label>
+                <select id="elo" name="elo" class="form-select w-auto mx-auto" style="max-width: 200px;" required>
+                    <option value="800">&lt;800</option>
                     <option value="800-1000">800-1000</option>
                     <option value="1000-1200">1000-1200</option>
                     <option value="1200-1400">1200-1400</option>
@@ -26,9 +53,11 @@
                     <option value="1800-2000">1800-2000</option>
                     <option value="2000+">2000+</option>
                 </select>
-                </div>
-                <button type="submit" class="btn btn-primary btn-lg mt-3">Start</button>
-            </form>
-        </div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-lg px-5" style="background-color: #1a1a2e; border: none;">
+                Start Challenge
+            </button>
+        </form>
     </div>
+</div>
 {% endblock %}
