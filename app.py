@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 from datetime import datetime
 import os
 import random
@@ -7,10 +8,13 @@ import random
 app = Flask(__name__)
 
 # Database Configuration
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///moves.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
+    'DATABASE_URL',
+    'sqlite:///local.db'  # Fallback for local development
+)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
-
+migrate = Migrate(app, db)
 # Define paths
 IMAGE_FOLDER = "static/"
 
@@ -101,4 +105,4 @@ def about():
 if __name__ == "__main__":
     with app.app_context():
         db.create_all()  # Create database tables
-    app.run(debug=True)
+    app.run(debug=False)
