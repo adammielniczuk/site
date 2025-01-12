@@ -67,30 +67,30 @@
 
         .board-image {
             max-width: 350px;
-            width: 100%; /* Make images responsive */
+            width: 100%;
             height: auto;
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
-        /* Add media query for mobile devices */
+   
         @media (max-width: 768px) {
             .board-images {
-                flex-direction: column; /* Stack images vertically */
-                align-items: center; /* Center images horizontally */
-                gap: 1rem; /* Reduce gap on mobile */
+                flex-direction: column; 
+                align-items: center;
+                gap: 1rem; 
             }
 
             .board-image {
-                max-width: 100%; /* Allow images to take full width of container */
+                max-width: 100%; 
             }
 
             .game-container {
-                padding: 1rem; /* Reduce padding on mobile */
+                padding: 1rem; 
             }
 
             .score-stats {
-                gap: 1.5rem; /* Reduce gap between stats on mobile */
+                gap: 1.5rem; 
             }
         }
 
@@ -217,7 +217,7 @@
         }
 
         function submitAnswer(userGuess) {
-            // Clear any existing timeout
+           
             if (feedbackTimeout) {
                 clearTimeout(feedbackTimeout);
             }
@@ -247,14 +247,14 @@
                     showFeedback(isCorrect, imageType);
                     updateScore(isCorrect);
 
-                    // Show next images after 800ms
+                    
                     setTimeout(() => {
                         document.getElementById("before_img").src = "/static/" + data.before_img;
                         document.getElementById("after_img").src = "/static/" + data.after_img;
                         buttons.forEach(btn => btn.disabled = false);
                     }, 500);
 
-                    // Hide feedback after 2 seconds
+       
                     feedbackTimeout = setTimeout(() => {
                         document.getElementById('feedback').style.display = 'none';
                     }, 1500);
