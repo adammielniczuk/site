@@ -67,8 +67,31 @@
 
         .board-image {
             max-width: 350px;
+            width: 100%; /* Make images responsive */
+            height: auto;
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Add media query for mobile devices */
+        @media (max-width: 768px) {
+            .board-images {
+                flex-direction: column; /* Stack images vertically */
+                align-items: center; /* Center images horizontally */
+                gap: 1rem; /* Reduce gap on mobile */
+            }
+
+            .board-image {
+                max-width: 100%; /* Allow images to take full width of container */
+            }
+
+            .game-container {
+                padding: 1rem; /* Reduce padding on mobile */
+            }
+
+            .score-stats {
+                gap: 1.5rem; /* Reduce gap between stats on mobile */
+            }
         }
 
         .question {
